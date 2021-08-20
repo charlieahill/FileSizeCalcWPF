@@ -1,0 +1,29 @@
+﻿<Window x:Class="FileSizeCalcWPF.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileSizeCalcWPF"
+        mc:Ignorable="d"
+        Title="Search Window" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView Name="FilesListView" MouseDoubleClick="FilesListView_MouseDoubleClick">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding FileName}"/>
+                        <TextBlock Text="{Binding FileFull}" FontStyle="Italic" FontSize="10"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBox Name="SearchValueTextBox" Grid.Row="2"  KeyUp="SearchValueTextBox_KeyUp"/>        
+    </Grid>
+</Window>

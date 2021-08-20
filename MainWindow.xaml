@@ -19,21 +19,31 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             
             <Button Click="CleverStartButton_Click" Name="CleverStartButton" Margin="2">Analyse</Button>
             <Button Click="RootPathSelector_Click"  Name="RootPathSelector" Margin="2" Grid.Column="1" Width="20">...</Button>
+            <Button Click="SearchButton_Click"  Name="SearchButton" Margin="2" Grid.Column="2">Find</Button>
         </Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Grid.Row="2">
-            <StackPanel Name="DirectoryLinkStackPanel" Orientation="Horizontal">
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Padding" Value="3"/>
-                        <Setter Property="Margin" Value="3"/>
-                    </Style>
-                </StackPanel.Resources>
-            </StackPanel>
-        </ScrollViewer>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Name="DirectoryLinkStackPanel" Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Padding" Value="3"/>
+                            <Setter Property="Margin" Value="3"/>
+                        </Style>
+                    </StackPanel.Resources>
+                </StackPanel>
+            </ScrollViewer>
+            <Button Click="GoToDirectory_Click" Name="GoToDirectory" Margin="2" Grid.Column="1" Width="20" Visibility="Hidden">→</Button>
+        </Grid>
         <ListView Name="FilesListView" Grid.Row="4" Grid.ColumnSpan="2" MouseDoubleClick="FilesListView_MouseDoubleClick"/>
 
 

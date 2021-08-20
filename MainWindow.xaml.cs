@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -24,10 +25,13 @@ namespace FileSizeCalcWPF
 
         string DefaultPath;
         CAHDirectory baseDirectory;
+        CAHDirectory selectedDirectory;
+        List<CAHFile> allFiles = new List<CAHFile>();
 
         private void CleverStartButton_Click(object sender, RoutedEventArgs e)
         {
             //Compile the directory data
+            allFiles = new List<CAHFile>();
             baseDirectory = new CAHDirectory(DefaultPath, 0, DefaultPath);
             BackgroundGetDirData(baseDirectory);
         }
@@ -37,7 +41,7 @@ namespace FileSizeCalcWPF
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += Worker_DoWork;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            worker.RunWorkerAsync(baseDirectory);         
+            worker.RunWorkerAsync(baseDirectory);
         }
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
@@ -68,6 +72,7 @@ namespace FileSizeCalcWPF
                     try
                     {
                         parentDirectory.files.Add(new CAHFile(file.Name, file.Length, file.FullName));
+                        allFiles.Add(new CAHFile(file.Name, file.Length, file.FullName));
                     }
                     catch (Exception ex)
                     {
@@ -117,6 +122,9 @@ namespace FileSizeCalcWPF
                 Console.WriteLine(subFile);
                 FilesListView.Items.Add(subFile);
             }
+
+            GoToDirectory.Visibility = Visibility.Visible;
+            selectedDirectory = directory;
         }
 
         private void FilesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -210,6 +218,17 @@ namespace FileSizeCalcWPF
                 DefaultPath = dialog.SelectedPath;
 
             CleverStartButton.Content = $"Analyse {DefaultPath}";
+        }
+
+        private void GoToDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(selectedDirectory.DirectoryFull);
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchWindow searchWindow = new SearchWindow(allFiles);
+            searchWindow.ShowDialog();
         }
     }
 
